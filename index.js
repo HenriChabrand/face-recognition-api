@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 
 const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
+const mLab = require(__dirname + '/src/mLab.js');
 
 const app = express();
 
