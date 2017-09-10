@@ -9,7 +9,7 @@ db.once('open', function(){
     console.log("mLab open")
 });
 
-function getArray(query, callback){
+function getOnce(query, callback){
     db.collection('whatshisface').find(query).toArray(function(err, array) {
       if(array && array[0]){
         callback(array[0])
@@ -26,5 +26,5 @@ function save(json, callback){
     });
 }
 
-exports.getArray = getArray;
+exports.getOnce = getOnce;
 exports.save = save;
