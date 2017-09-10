@@ -18,9 +18,10 @@ const server = app.listen(process.env.PORT || 5000, () => {
 app.post('/webhook', (req, res) => {  
   try{
     
-    console.log("req",req);
+    var body = req.body;
+    console.log("body",body);
     
-    mcf.detect(req.imageUrl, function(faceIds){
+    mcf.detect(body.imageUrl, function(faceIds){
       res.send(faceIds);      
     })    
     
