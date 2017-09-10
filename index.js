@@ -27,14 +27,14 @@ app.post('/webhook', (req, res) => {
     
     //Get cast
     if(contentType == "movie"){
-      getMovieId(body.title, function(moiveId){
-        getMovieCast(moiveId, function(cast){
+      tmdb.getMovieId(body.title, function(moiveId){
+        tmdb.getMovieCast(moiveId, function(cast){
           res.send(cast);
         })
       })      
     }else if(contentType == "tvshow"){      
-      getTvshowId(body.title, function(tvshowId){
-        getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
+      tmdb.getTvshowId(body.title, function(tvshowId){
+        tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
           res.send(cast);
         })
       })     
