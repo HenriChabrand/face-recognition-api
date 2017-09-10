@@ -17,12 +17,9 @@ function getArray(query, callback){
 
 
 function save(json, callback){
-    //from udemy MongoDb
-    db.once('open', function(){
-        console.log("mLab open: save",json)
-        db.collection('whatshisface').save(json, function(err, records) {
-            callback(records);
-        });
+    console.log("mLab open: save",json)
+    db.collection('whatshisface').save(json, function(err, records) {
+        callback(records);
     });
 }
 
