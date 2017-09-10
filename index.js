@@ -43,6 +43,7 @@ app.post('/webhook', (req, res) => {
               if(actor_data){
                 console.log("Existing: ", actor_data.tmdb_actor_name)
                 list_actor_data.push(actor_data)
+                console.log(list_actor_data)
               }else{
                 console.log("notExiting: ", tmdb_actor.name)  
                 
