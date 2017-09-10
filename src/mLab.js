@@ -10,13 +10,9 @@ db.once('open', function(){
 });
 
 function getArray(query, callback){
-    //from udemy MongoDb
-    db.once('open', function(){
-        console.log("mLab open: query",query)
-        db.collection('whatshisface').find(query).toArray(function(err, array) {
-           callback(array)
-        });
-    });
+    db.collection('whatshisface').find(query).toArray(function(err, array) {
+       callback(array)
+    }); 
 }
 
 
