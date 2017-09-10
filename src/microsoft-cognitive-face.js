@@ -83,7 +83,7 @@ function findSimilar(faceListId, tmpFaceId , callback){
             "faceId": tmpFaceId,
             "faceListId": faceListId,  
             "maxNumOfCandidatesReturned":5,
-            "mode": "matchPerson"
+            "mode": "matchFace"
         }
     }
 
@@ -91,7 +91,10 @@ function findSimilar(faceListId, tmpFaceId , callback){
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             // Return out the response body
-            callback(body)
+            console.log(body)
+            if(body && body[0]){                
+               callback(body[0])
+            }            
         }else{
             console.log('msc findSimilar: error: ',error);
         }
