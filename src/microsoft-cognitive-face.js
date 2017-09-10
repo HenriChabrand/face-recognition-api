@@ -29,7 +29,7 @@ function addFaceToList(faceListId, imageUrl, userData, callback){
             // Return out the response body
             callback(body)
         }else{
-            console.log('addFaceToList: error: ',error);
+            console.log('msc addFaceToList: error: ',error);
         }
     })
 }
@@ -58,7 +58,7 @@ function detect(imageUrl, callback){
             // Return out the response body
             callback(body)
         }else{
-            console.log('addFaceToList: error: ',error);
+            console.log('msc detect: error: ',error);
         }
     })
 }
