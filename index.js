@@ -35,6 +35,12 @@ app.post('/webhook', (req, res) => {
     }else if(contentType == "tvshow"){      
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
+          forEach(cast, function(tmdb_actor, index, arr) {
+            mLab.getOnce(tmdb_actor.id, function(tmdb_actor, index, arr) {
+              console.log("Actor name:",tmdb_actor.name)
+            })            
+          });
+          
           res.send(cast);
         })
       })     
