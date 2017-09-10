@@ -37,7 +37,8 @@ app.post('/webhook', (req, res) => {
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
           forEach(cast, function(tmdb_actor, index, arr) {
-            mLab.getOnce(tmdb_actor.id, function(tmdb_actor, index, arr) {
+            var query = {tmdb_actor_id:tmdb_actor.id};
+            mLab.getOnce(query, function(tmdb_actor, index, arr) {
               console.log("Actor name:",tmdb_actor.name)
             })            
           });
