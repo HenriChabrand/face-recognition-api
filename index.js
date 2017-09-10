@@ -40,7 +40,7 @@ app.post('/webhook', (req, res) => {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
-                console.log("Existing: ", actor_data.name)                
+                console.log("Existing: ", actor_data.tmdb_actor_name)                
               }else{
                 console.log("notExiting: ", tmdb_actor.name)                 
               }
