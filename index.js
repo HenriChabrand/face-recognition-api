@@ -21,9 +21,14 @@ app.post('/webhook', (req, res) => {
     var body = req.body;
     console.log("body",body);
     
+    mcf.addFaceToList(body.faceListId,body.imageUrl,body.userData,function(faceId){
+      res.send(faceId);      
+    })        
+    /*
     mcf.detect(body.imageUrl, function(faceIds){
       res.send(faceIds);      
-    })    
+    })        
+    */
     
   }catch(err){
     console.log(err)
