@@ -63,5 +63,39 @@ function detect(imageUrl, callback){
     })
 }
 
+//Find similar face from tmpFaceId and faceListId
+function findSimilar(tmpFaceId, faceListId, callback){
+
+    var uriBase = "https://westeurope.api.cognitive.microsoft.com/face/v1.0/findsimilars";
+    
+    var headers = {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': subscriptionKey
+    }
+
+    // Configure the request
+    var options = {
+        url: uriBase,
+        method: 'POST',
+        headers: headers,
+        json: {    
+            "faceId": tmpFaceId,
+            "faceListId": faceListId,  
+            "maxNumOfCandidatesReturned":5,
+            "mode": "matchPerson"
+        }
+    }
+
+    // Start the request
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // Return out the response body
+            callback(body)
+        }else{
+            console.log('msc findSimilar: error: ',error);
+        }
+    })
+}
 exports.addFaceToList = addFaceToList;
 exports.detect = detect;
+exports.findSimilar = findSimilar;
