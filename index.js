@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
     var body = req.body;
     console.log("body",body);
     
-    mcf.addFaceToList(body.faceListId,body.imageUrl,body.userData,function(faceId){
+    mcf.findSimilar(body.faceListId,body.tmpFaceId,function(faceId){
       res.send(faceId);      
     })        
     /*
