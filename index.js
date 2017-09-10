@@ -23,6 +23,8 @@ app.post('/webhook', (req, res) => {
     
     var body = req.body;
     
+    
+    
     //Sort content type 
     var contentType = body.type;
     
@@ -37,6 +39,11 @@ app.post('/webhook', (req, res) => {
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
           var list_actor_data = [];
+          // Generic "done" callback. 
+          function allDone(notAborted, arr) {
+            console.log("done", list_actor_data);
+            res.send(list_actor_data)
+          }
           forEach(cast, function(tmdb_actor, index, arr) {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
@@ -69,7 +76,7 @@ app.post('/webhook', (req, res) => {
                 })
               }
             })            
-          }, res.send(list_actor_data));          
+          },allDone);          
           
         })
       })     
