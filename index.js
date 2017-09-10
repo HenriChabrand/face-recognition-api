@@ -38,19 +38,11 @@ app.post('/webhook', (req, res) => {
     }else if(contentType == "tvshow"){      
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
-          var list_actor_data = [];
-          // Generic "done" callback. 
-          function allDone(notAborted, arr) {
-            console.log("done", list_actor_data);
-            res.send(list_actor_data)
-          }
           forEach(cast, function(tmdb_actor, index, arr) {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
                 console.log("Existing: ", actor_data.tmdb_actor_name)
-                list_actor_data.push(actor_data)
-                console.log(list_actor_data)
               }else{
                 console.log("notExiting: ", tmdb_actor.name)  
                 
@@ -60,24 +52,25 @@ app.post('/webhook', (req, res) => {
                 
                 mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
                   
-                  var model = {
-                      "persistedFaceId": mcs_data.persistedFaceId,
-                      "tmdb_actor_id": tmdb_actor.id,
-                      "tmdb_actor_name": tmdb_actor.name,
-                      "tmdb_actor_img_short_url": tmdb_actor.profile_path,
-                      "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
-                  };
-                  
-                  console.log("created: ", model)  
-                  
-                  mLab.save(model, function(test) {
-                     console.log("saved: ", test)  
-                  })                  
+                  if(!mcs_data){
+                    var model = {
+                        "persistedFaceId": mcs_data.persistedFaceId,
+                        "tmdb_actor_id": tmdb_actor.id,
+                        "tmdb_actor_name": tmdb_actor.name,
+                        "tmdb_actor_img_short_url": tmdb_actor.profile_path,
+                        "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
+                    };
+
+                    console.log("created: ", model)  
+
+                    mLab.save(model, function(test) {
+                       console.log("saved: ", test)  
+                    })    
+                  }
                 })
               }
             })            
-          },allDone);          
-          
+          });          
         })
       })     
     }else{
