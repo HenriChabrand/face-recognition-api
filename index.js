@@ -38,8 +38,12 @@ app.post('/webhook', (req, res) => {
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
           forEach(cast, function(tmdb_actor, index, arr) {
             var query = {tmdb_actor_id:tmdb_actor.id};
-            mLab.getOnce(query, function(tmdb_actor, index, arr) {
-              console.log("Actor name:",tmdb_actor.name)
+            mLab.getOnce(query, function(actor_data) {
+              if(actor_data){
+                console.log("Existing: ", actor_data.name)                
+              }else{
+                console.log("notExiting: ", tmdb_actor.name)                 
+              }
             })            
           });
           
