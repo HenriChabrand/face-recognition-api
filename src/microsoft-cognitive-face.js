@@ -64,7 +64,7 @@ function detect(imageUrl, callback){
 }
 
 //Find similar face from tmpFaceId and faceListId
-function findSimilar(tmpFaceId, faceListId, callback){
+function findSimilar(faceListId, tmpFaceId , callback){
 
     var uriBase = "https://westeurope.api.cognitive.microsoft.com/face/v1.0/findsimilars";
     
