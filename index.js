@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
+const forEach = require('async-foreach').forEach;
 
 const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
 const mLab = require(__dirname + '/src/mLab.js');
