@@ -22,9 +22,13 @@ app.post('/webhook', (req, res) => {
     var body = req.body;
     console.log("body",body);
     
-    mcf.findSimilar(body.faceListId,body.tmpFaceId,function(faceId){
+    mLab.getArray(body.query,function(array){
+      res.send(array);      
+    }) 
+    
+    /*mcf.findSimilar(body.faceListId,body.tmpFaceId,function(faceId){
       res.send(faceId);      
-    })        
+    })   */     
     /*
     mcf.detect(body.imageUrl, function(faceIds){
       res.send(faceIds);      
