@@ -22,7 +22,7 @@ app.post('/webhook', (req, res) => {
     var body = req.body;
     console.log("body",body);
     
-    mLab.getArray(body.query,function(array){
+    mLab.save(body.json,function(array){
       res.send(array);      
     }) 
     
