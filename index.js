@@ -32,7 +32,7 @@ app.post('/webhook', (req, res) => {
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moiveId){
         tmdb.getMovieCast(moiveId, function(cast){
-          res.send(cast);
+          //res.send(cast);
         })
       })      
     }else if(contentType == "tvshow"){      
@@ -70,13 +70,28 @@ app.post('/webhook', (req, res) => {
                 })
               }
             })            
-          });   
-          res.send("Content not valide."); 
+          });    
         })
       })     
     }else{
-       res.send("Content not valide."); 
+       //res.send("Content not valide."); 
     }
+    
+    
+    //Get temp face id
+    mcf.detect(body.img64, function(list_tmp_face_id) {
+      forEach(list_tmp_face_id, function(tmp_face_id, index, arr) {
+        mcf.findSimilar('whatshisface', tmp_face_id, function(list_match) {
+          forEach(list_match, function(match, index, arr) {
+            var query = {persistedFaceId: match.persistedFaceId};
+            mLab.getOnce(query, function(actor_data) {
+              console.log("Found: ", actor_data.tmdb_actor_name)  
+            })
+          })
+        })
+      })            
+    });
+    
     
     /*
     mLab.save(body.json,function(array){
