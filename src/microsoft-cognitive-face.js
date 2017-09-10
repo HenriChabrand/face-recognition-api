@@ -64,4 +64,4 @@ function detect(imageUrl, callback){
 }
 
 exports.addFaceToList = addFaceToList;
-exports.detect = exports;
+exports.detect = detect;
