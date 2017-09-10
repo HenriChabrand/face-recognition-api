@@ -83,7 +83,7 @@ app.post('/webhook', (req, res) => {
       console.log("list_tmp_face: ",list_tmp_face)  
       forEach(list_tmp_face, function(tmp_face, index, arr) {
         console.log("tmp_face: ",tmp_face)  
-        mcf.findSimilar('whatshisface', tmp_face.tmp_face_id, function(list_match) {
+        mcf.findSimilar('whatshisface', tmp_face.faceId, function(list_match) {
           console.log("list_match: ",list_match)  
           forEach(list_match, function(match, index, arr) {
             console.log("match: ",match)  
