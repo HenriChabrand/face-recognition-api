@@ -89,6 +89,7 @@ function findSimilar(faceListId, tmpFaceId , callback){
 
     // Start the request
     request(options, function (error, response, body) {
+        console.log('msc findSimilar: options: ', options);
         if (!error && response.statusCode == 200) {
             // Return out the response body
             console.log(body)
