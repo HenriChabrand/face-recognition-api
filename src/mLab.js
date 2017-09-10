@@ -5,6 +5,10 @@ mongoose.connect('mongodb://Admin:password@ds052649.mlab.com:52649/face-recognit
 });
 var db = mongoose.connection;
 
+db.once('open', function(){
+    console.log("mLab open")
+});
+
 function getArray(query, callback){
     //from udemy MongoDb
     db.once('open', function(){
