@@ -69,9 +69,7 @@ app.post('/webhook', (req, res) => {
                 })
               }
             })            
-          },
-           res.send(list_actor_data);
-                 );          
+          }, res.send(list_actor_data));          
           
         })
       })     
