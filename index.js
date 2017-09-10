@@ -36,18 +36,20 @@ app.post('/webhook', (req, res) => {
     }else if(contentType == "tvshow"){      
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
+          var list_actor_data = [];
           forEach(cast, function(tmdb_actor, index, arr) {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
-                console.log("Existing: ", actor_data.tmdb_actor_name)                
+                console.log("Existing: ", actor_data.tmdb_actor_name)
+                list_actor_data.push(actor_data)
               }else{
                 console.log("notExiting: ", tmdb_actor.name)                 
               }
             })            
           });
           
-          res.send(cast);
+          res.send(list_actor_data);
         })
       })     
     }else{
