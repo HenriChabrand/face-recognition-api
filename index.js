@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 
+const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
+
 const app = express();
 
 app.use(bodyParser.json());
