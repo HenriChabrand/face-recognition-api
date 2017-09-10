@@ -11,7 +11,11 @@ db.once('open', function(){
 
 function getArray(query, callback){
     db.collection('whatshisface').find(query).toArray(function(err, array) {
-       callback(array)
+      if(array && array[0]){
+        callback(array[0])
+      }else{
+        callback(null)
+      }
     }); 
 }
 
