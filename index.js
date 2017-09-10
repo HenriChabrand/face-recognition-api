@@ -44,11 +44,31 @@ app.post('/webhook', (req, res) => {
                 console.log("Existing: ", actor_data.tmdb_actor_name)
                 list_actor_data.push(actor_data)
               }else{
-                console.log("notExiting: ", tmdb_actor.name)                 
+                console.log("notExiting: ", tmdb_actor.name)  
+                
+                var faceListId = 'whatshisface';
+                var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
+                var userData = tmdb_actor.id;
+                
+                mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
+                  
+                  var model = {
+                      "persistedFaceId": mcs_data.persistedFaceId,
+                      "tmdb_actor_id": tmdb_actor.id,
+                      "tmdb_actor_name": tmdb_actor.name,
+                      "tmdb_actor_img_short_url": tmdb_actor.profile_path,
+                      "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
+                  };
+                  
+                  console.log("created: ", model)  
+                  
+                  mLab.save(model, function(test) {
+                     console.log("saved: ", test)  
+                  })                  
+                })
               }
             })            
-          });
-          
+          });          
           res.send(list_actor_data);
         })
       })     
