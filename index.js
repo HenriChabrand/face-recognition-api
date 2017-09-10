@@ -52,7 +52,7 @@ app.post('/webhook', (req, res) => {
                 
                 mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
                   
-                  if(!mcs_data){
+                  if(mcs_data != null){
                     var model = {
                         "persistedFaceId": mcs_data.persistedFaceId,
                         "tmdb_actor_id": tmdb_actor.id,
@@ -70,7 +70,8 @@ app.post('/webhook', (req, res) => {
                 })
               }
             })            
-          });          
+          });   
+          res.send("Content not valide."); 
         })
       })     
     }else{
