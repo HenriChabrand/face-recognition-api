@@ -42,7 +42,7 @@ app.post('/webhook', (req, res) => {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
-                console.log("Existing: ", actor_data.tmdb_actor_name)
+                //console.log("Existing: ", actor_data.tmdb_actor_name)
               }else{
                 console.log("notExiting: ", tmdb_actor.name)  
                 
@@ -84,7 +84,7 @@ app.post('/webhook', (req, res) => {
       forEach(list_tmp_face, function(tmp_face, index, arr) {
         //console.log("tmp_face: ",tmp_face)  
         mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-          console.log("match: ",match)  
+          //console.log("match: ",match)  
           var query = {persistedFaceId: match.persistedFaceId};
           mLab.getOnce(query, function(actor_data) {
             console.log("Found: ", actor_data.tmdb_actor_name)  
