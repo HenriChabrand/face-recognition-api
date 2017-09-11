@@ -130,23 +130,28 @@ app.post('/webhook', (req, res) => {
       ]
       }*/
   
-    var res_list = [];
+    var actor_match_list = [];
     
     mcf.detect(body.img64, function(list_tmp_face) {
       forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
           mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
             var query = {persistedFaceId: match.persistedFaceId};
             mLab.getOnce(query, function(actor_data) {
-              res_list.push(actor_data);
+              var actor = {
+                name: actor_data.tmdb_actor_name,
+                id: actor_data.tmdb_actor_id,
+                imgUrl: "https://image.tmdb.org/t/p/w150/" + actor_data.tmdb_actor_img_short_url                
+              }
+              actor_match_list.push(actor);
               next()              
             })
           })
       }).then(function () {   
-          var response = {
-            actors : res_list,
+          var data_out = {
+            actors : actor_match_list,
             title: "iron man"
           }
-          res.send(response);  
+          res.send(data_out);  
       });
     })
     
