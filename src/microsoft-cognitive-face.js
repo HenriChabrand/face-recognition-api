@@ -31,6 +31,7 @@ function addFaceToList(faceListId, imageUrl, userData, callback){
         }else{
             callback(null)
             console.log('msc addFaceToList: error: ',error);
+            console.log('msc findSimilar: error: response: ',response);
         }
     })
 }
