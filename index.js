@@ -34,12 +34,12 @@ app.post('/webhook', (req, res) => {
       tmdb.getMovieId(body.title, function(moiveId){
         tmdb.getMovieCast(moiveId, function(cast){
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {
-            var query = {tmdb_actor_id:tmdb_actor.id};
+            /*var query = {tmdb_actor_id:tmdb_actor.id};
             if(tmdb_actor.profile_path!=null){
               mLab.getOnce(query, function(actor_data) {
                 if(!actor_data){
                   console.log("notExiting: ", tmdb_actor.name)  
-                  /*
+                  
                   var faceListId = 'whatshisface';
                   var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
                   var userData = tmdb_actor.id;
@@ -57,13 +57,14 @@ app.post('/webhook', (req, res) => {
 
                       mLab.save(model)    
                     }
-                  })*/
+                  })
                   cast_next();
                 }
               })  
             }else{
               cast_next();
-            }
+            }*/
+            cast_next();
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
