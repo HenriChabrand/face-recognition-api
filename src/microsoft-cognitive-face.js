@@ -29,9 +29,8 @@ function addFaceToList(faceListId, imageUrl, userData, callback){
             // Return out the response body
             callback(body)
         }else{
-            callback(null)
             console.log('msc addFaceToList: error: ',error);
-            console.log('msc findSimilar: error: response: ',response);
+            console.log('msc findSimilar: error: response: ',response.body);
         }
     })
 }
