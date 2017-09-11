@@ -91,7 +91,7 @@ function findSimilar(faceListId, tmpFaceId , callback){
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             // Return out the response body
-            console.log(body)
+           
             if(body && body[0]){                
                callback(body[0])
             }            
