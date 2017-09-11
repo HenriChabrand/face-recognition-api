@@ -124,10 +124,10 @@ app.post('/webhook', (req, res) => {
           })
         })
       })
-      res.send(res_list);  
     });
     
     
+     res.send(res_list);  
     /*
     mLab.save(body.json,function(array){
       res.send(array);      
