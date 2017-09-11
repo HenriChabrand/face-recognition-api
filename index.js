@@ -62,13 +62,12 @@ app.post('/webhook', (req, res) => {
                     }
                   })
                 }else{
-                  cast_next();
+                  cast_next()
                 }
               }) 
             }else{
-              cast_next();
+              cast_next()
             }
-            cast_next();
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
