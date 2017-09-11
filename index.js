@@ -80,17 +80,14 @@ app.post('/webhook', (req, res) => {
     
     //Get temp face id
     mcf.detect(body.img64, function(list_tmp_face) {
-      console.log("list_tmp_face: ",list_tmp_face)  
+      //console.log("list_tmp_face: ",list_tmp_face)  
       forEach(list_tmp_face, function(tmp_face, index, arr) {
-        console.log("tmp_face: ",tmp_face)  
-        mcf.findSimilar('whatshisface', tmp_face.faceId, function(list_match) {
-          console.log("list_match: ",list_match)  
-          forEach(list_match, function(match, index, arr) {
-            console.log("match: ",match)  
-            var query = {persistedFaceId: match.persistedFaceId};
-            mLab.getOnce(query, function(actor_data) {
-              console.log("Found: ", actor_data.tmdb_actor_name)  
-            })
+        //console.log("tmp_face: ",tmp_face)  
+        mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
+          console.log("match: ",match)  
+          var query = {persistedFaceId: match.persistedFaceId};
+          mLab.getOnce(query, function(actor_data) {
+            console.log("Found: ", actor_data.tmdb_actor_name)  
           })
         })
       })            
