@@ -51,7 +51,7 @@ app.post('/webhook', (req, res) => {
                           "tmdb_actor_id": tmdb_actor.id,
                           "tmdb_actor_name": tmdb_actor.name,
                           "tmdb_actor_img_short_url": tmdb_actor.profile_path,
-                          "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
+                          "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500" + tmdb_actor.profile_path
                       };
 
                       mLab.save(model, function(){
