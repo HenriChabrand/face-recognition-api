@@ -26,7 +26,7 @@ function getMovieId(query, callback){
             var json = JSON.parse(body);
             if(json.results[0]){    
                 var item = json.results[0];
-                callback(item.id)
+                callback(item)
             }else{
                 callback(null)
             }
@@ -60,7 +60,7 @@ function getTvshowId(query, callback){
             var json = JSON.parse(body);
             if(json.results[0]){    
                 var item = json.results[0];
-                callback(item.id)
+                callback(item)
             }else{
                 callback(null)
             }
