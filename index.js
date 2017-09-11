@@ -31,8 +31,9 @@ app.post('/webhook', (req, res) => {
     console.log(body.img64)
     //Get cast
     if(contentType == "movie"){
-      tmdb.getMovieId(body.title, function(moiveId){
-        tmdb.getMovieCast(moiveId, function(cast){
+      tmdb.getMovieId(body.title, function(moive){
+        tmdb.getMovieCast(moive.id, function(cast){
+          body.title = moive.title;
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
             if(tmdb_actor && tmdb_actor.profile_path!=null){     
               var query = {tmdb_actor_id: tmdb_actor.id};
@@ -104,8 +105,9 @@ app.post('/webhook', (req, res) => {
         })
       })      
     }else if(contentType == "tvshow"){      
-      tmdb.getTvshowId(body.title, function(tvshowId){
-        tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
+      tmdb.getTvshowId(body.title, function(tvshow){
+        tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(cast){
+          body.title = tvshow.name;
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
             if(tmdb_actor && tmdb_actor.profile_path!=null){     
               var query = {tmdb_actor_id: tmdb_actor.id};
