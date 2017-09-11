@@ -28,12 +28,12 @@ app.post('/webhook', (req, res) => {
     
     //Sort content type 
     var contentType = body.type;
-    /*
+    
     //Get cast
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moiveId){
         tmdb.getMovieCast(moiveId, function(cast){
-          forEachAsync(cast, function (next, tmdb_actor, index, array) {
+          forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
@@ -65,6 +65,8 @@ app.post('/webhook', (req, res) => {
                 })
               }
             })            
+          }).then(function () {   
+            console.log("For each actor done!")
           });     
         })
       })      
@@ -110,7 +112,7 @@ app.post('/webhook', (req, res) => {
        //res.send("Content not valide."); 
     }
     
-      */
+      
     /*
     
     var data = {
