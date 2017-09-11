@@ -169,7 +169,7 @@ app.post('/webhook', (req, res) => {
               }).then(function () {   
                   var data_out = {
                     actors : actor_match_list,
-                    title: body.title + " S " + body.season + " Ep. " + body.episode
+                    title: body.title + " S. " + body.season + " Ep. " + body.episode
                   }
                   res.send(data_out);  
               });
