@@ -33,7 +33,7 @@ app.post('/webhook', (req, res) => {
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moiveId){
         tmdb.getMovieCast(moiveId, function(cast){
-          forEach(cast, function(tmdb_actor, index, arr) {
+          forEachAsync(cast, function (next, tmdb_actor, index, array) {
             var query = {tmdb_actor_id:tmdb_actor.id};
             mLab.getOnce(query, function(actor_data) {
               if(actor_data){
@@ -110,8 +110,7 @@ app.post('/webhook', (req, res) => {
        //res.send("Content not valide."); 
     }
     
-    */
-      
+      */
     /*
     
     var data = {
@@ -140,7 +139,7 @@ app.post('/webhook', (req, res) => {
               var actor = {
                 name: actor_data.tmdb_actor_name,
                 id: actor_data.tmdb_actor_id,
-                imgUrl: "https://image.tmdb.org/t/p/w150/" + actor_data.tmdb_actor_img_short_url                
+                imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
               }
               actor_match_list.push(actor);
               next()              
