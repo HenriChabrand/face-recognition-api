@@ -33,9 +33,9 @@ app.post('/webhook', (req, res) => {
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moiveId){
         tmdb.getMovieCast(moiveId, function(cast){
-          forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {
-            var query = {tmdb_actor_id: tmdb_actor.id};
-            if(tmdb_actor.profile_path!=null){              
+          forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
+            if(tmdb_actor && tmdb_actor.profile_path!=null){     
+              var query = {tmdb_actor_id: tmdb_actor.id};
               mLab.getOnce(query, function(actor_data) {
                 if(!actor_data){
                   console.log("notExiting: ", tmdb_actor.name)                    
