@@ -28,7 +28,7 @@ app.post('/webhook', (req, res) => {
     
     //Sort content type 
     var contentType = body.type;
-    
+    /*
     //Get cast
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moiveId){
@@ -110,7 +110,7 @@ app.post('/webhook', (req, res) => {
        //res.send("Content not valide."); 
     }
     
-    
+    */
       
     /*
     
