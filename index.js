@@ -109,8 +109,28 @@ app.post('/webhook', (req, res) => {
        //res.send("Content not valide."); 
     }
     
+    
+    var forEachAsync = require('forEachAsync').forEachAsync    
+    
     var res_list = [];
-    //Get temp face id
+    
+    mcf.detect(body.img64, function(list_tmp_face) {
+      forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
+          mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
+            var query = {persistedFaceId: match.persistedFaceId};
+            mLab.getOnce(query, function(actor_data) {
+              res_list.push(actor_data.tmdb_actor_name);
+              console.log("Found: ", actor_data.tmdb_actor_name)  
+              next()              
+            })
+          })
+      }).then(function () {          
+          res.send(res_list);  
+      });
+    })
+    
+    
+    /*//Get temp face id
     mcf.detect(body.img64, function(list_tmp_face) {
       //console.log("list_tmp_face: ",list_tmp_face)  
       forEach(list_tmp_face, function(tmp_face, index, arr) {
@@ -124,10 +144,10 @@ app.post('/webhook', (req, res) => {
           })
         })
       })
-    });
+    })
+    */
     
     
-     res.send(res_list);  
     /*
     mLab.save(body.json,function(array){
       res.send(array);      
