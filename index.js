@@ -109,7 +109,7 @@ app.post('/webhook', (req, res) => {
        //res.send("Content not valide."); 
     }
     
-    
+    var res_list = [];
     //Get temp face id
     mcf.detect(body.img64, function(list_tmp_face) {
       //console.log("list_tmp_face: ",list_tmp_face)  
@@ -119,10 +119,12 @@ app.post('/webhook', (req, res) => {
           //console.log("match: ",match)  
           var query = {persistedFaceId: match.persistedFaceId};
           mLab.getOnce(query, function(actor_data) {
+            res_list.push(actor_data.tmdb_actor_name);
             console.log("Found: ", actor_data.tmdb_actor_name)  
           })
         })
-      })            
+      })
+      res.send(res_list);  
     });
     
     
