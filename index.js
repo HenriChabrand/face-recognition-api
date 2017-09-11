@@ -77,13 +77,18 @@ app.post('/webhook', (req, res) => {
                   mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
                     var query = {persistedFaceId: match.persistedFaceId};
                     mLab.getOnce(query, function(actor_data) {
-                      var actor = {
-                        name: actor_data.tmdb_actor_name,
-                        id: actor_data.tmdb_actor_id,
-                        imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
+                      console.log("Matching Actor :",actor_data);  
+                      if(actor_data!=null){
+                        var actor = {
+                          name: actor_data.tmdb_actor_name,
+                          id: actor_data.tmdb_actor_id,
+                          imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
+                        }
+                        actor_match_list.push(actor);
+                        next()              
+                      }else{
+                        next()
                       }
-                      actor_match_list.push(actor);
-                      next()              
                     })
                   })
               }).then(function () {   
