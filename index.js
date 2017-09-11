@@ -45,7 +45,7 @@ app.post('/webhook', (req, res) => {
                 var faceListId = 'whatshisface';
                 var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
                 var userData = tmdb_actor.id;
-                
+                /*
                 mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
                   
                   if(mcs_data != null){
@@ -63,7 +63,7 @@ app.post('/webhook', (req, res) => {
                        console.log("saved: ", test)  
                        
                     })    
-                  }
+                  }*/
                   cast_next();
                 })
               }
