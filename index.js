@@ -40,7 +40,7 @@ app.post('/webhook', (req, res) => {
                 if(!actor_data){
                   console.log("notExiting: ", tmdb_actor.name)                    
                   var faceListId = 'whatshisface';
-                  var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
+                  var imgUrl = 'https://image.tmdb.org/t/p/w500' + tmdb_actor.profile_path;
                   var userData = tmdb_actor.id;
 
                   mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {                  
@@ -94,7 +94,7 @@ app.post('/webhook', (req, res) => {
               }).then(function () {   
                   var data_out = {
                     actors : actor_match_list,
-                    title: "iron man"
+                    title: body.title
                   }
                   res.send(data_out);  
               });
@@ -106,37 +106,71 @@ app.post('/webhook', (req, res) => {
     }else if(contentType == "tvshow"){      
       tmdb.getTvshowId(body.title, function(tvshowId){
         tmdb.getTvshowSECast(tvshowId, body.season, body.episode, function(cast){
-          forEach(cast, function(tmdb_actor, index, arr) {
-            var query = {tmdb_actor_id:tmdb_actor.id};
-            mLab.getOnce(query, function(actor_data) {
-              if(actor_data){
-                //console.log("Existing: ", actor_data.tmdb_actor_name)
-              }else{
-                console.log("notExiting: ", tmdb_actor.name)  
-                
-                var faceListId = 'whatshisface';
-                var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
-                var userData = tmdb_actor.id;
-                
-                mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
-                  
-                  if(mcs_data != null){
-                    var model = {
-                        "persistedFaceId": mcs_data.persistedFaceId,
-                        "tmdb_actor_id": tmdb_actor.id,
-                        "tmdb_actor_name": tmdb_actor.name,
-                        "tmdb_actor_img_short_url": tmdb_actor.profile_path,
-                        "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
-                    };
+          forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
+            if(tmdb_actor && tmdb_actor.profile_path!=null){     
+              var query = {tmdb_actor_id: tmdb_actor.id};
+              mLab.getOnce(query, function(actor_data) {
+                if(!actor_data){
+                  console.log("notExiting: ", tmdb_actor.name)                    
+                  var faceListId = 'whatshisface';
+                  var imgUrl = 'https://image.tmdb.org/t/p/w500' + tmdb_actor.profile_path;
+                  var userData = tmdb_actor.id;
 
-                    console.log("created: ", model)  
+                  mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {                  
+                    if(mcs_data != null){
 
-                    mLab.save(model, function(test) {
-                       console.log("saved: ", test)  
-                    })    
+                      var model = {
+                          "persistedFaceId": mcs_data.persistedFaceId,
+                          "tmdb_actor_id": tmdb_actor.id,
+                          "tmdb_actor_name": tmdb_actor.name,
+                          "tmdb_actor_img_short_url": tmdb_actor.profile_path,
+                          "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500" + tmdb_actor.profile_path
+                      };
+
+                      mLab.save(model, function(){
+                        cast_next()
+                      })    
+                    }else{
+                      cast_next()
+                    }
+                  })
+                }else{
+                  cast_next()
+                }
+              }) 
+            }else{
+              cast_next()
+            }
+          }).then(function () {   
+            console.log("For each actor done!")
+            var actor_match_list = [];
+    
+            mcf.detect(body.img64, function(list_tmp_face) {
+              forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
+                  mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
+                    var query = {persistedFaceId: match.persistedFaceId};
+                    mLab.getOnce(query, function(actor_data) {
+                      console.log("Matching Actor :",actor_data);  
+                      if(actor_data!=null){
+                        var actor = {
+                          name: actor_data.tmdb_actor_name,
+                          id: actor_data.tmdb_actor_id,
+                          imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
+                        }
+                        actor_match_list.push(actor);
+                        next()              
+                      }else{
+                        next()
+                      }
+                    })
+                  })
+              }).then(function () {   
+                  var data_out = {
+                    actors : actor_match_list,
+                    title: body.title + " S " + body.season + " Ep. " + body.episode
                   }
-                })
-              }
+                  res.send(data_out);  
+              });
             })            
           });    
         })
