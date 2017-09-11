@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const forEach = require('async-foreach').forEach;
+const forEachAsync = require('forEachAsync').forEachAsync  
 
 const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
 const mLab = require(__dirname + '/src/mLab.js');
@@ -110,8 +111,25 @@ app.post('/webhook', (req, res) => {
     }
     
     
-    var forEachAsync = require('forEachAsync').forEachAsync    
+      
+    /*
     
+    var data = {
+      title: “Game Of Thrones S03E08”,
+      actors : [
+      {
+      name: "James Cosmo”,
+      imgUrl: “https://image.tmdb.org/t/p/w150/523gSqAG9eSSNmKexFFZYh38SxL.jpg”,
+      id:”2467”
+      },
+      {
+      name: "Joe Dempsie”,
+      imgUrl: “https://image.tmdb.org/t/p/w150/f5ImnMIPkNFHK1lXOolqBHpI27o.jpg,
+      id:”570296”
+      }
+      ]
+      }*/
+  
     var res_list = [];
     
     mcf.detect(body.img64, function(list_tmp_face) {
@@ -119,8 +137,7 @@ app.post('/webhook', (req, res) => {
           mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
             var query = {persistedFaceId: match.persistedFaceId};
             mLab.getOnce(query, function(actor_data) {
-              res_list.push(actor_data.tmdb_actor_name);
-              console.log("Found: ", actor_data.tmdb_actor_name)  
+              res_list.push(actor_data);
               next()              
             })
           })
@@ -129,39 +146,6 @@ app.post('/webhook', (req, res) => {
       });
     })
     
-    
-    /*//Get temp face id
-    mcf.detect(body.img64, function(list_tmp_face) {
-      //console.log("list_tmp_face: ",list_tmp_face)  
-      forEach(list_tmp_face, function(tmp_face, index, arr) {
-        //console.log("tmp_face: ",tmp_face)  
-        mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-          //console.log("match: ",match)  
-          var query = {persistedFaceId: match.persistedFaceId};
-          mLab.getOnce(query, function(actor_data) {
-            res_list.push(actor_data.tmdb_actor_name);
-            console.log("Found: ", actor_data.tmdb_actor_name)  
-          })
-        })
-      })
-    })
-    */
-    
-    
-    /*
-    mLab.save(body.json,function(array){
-      res.send(array);      
-    }) 
-    */
-    
-    /*mcf.findSimilar(body.faceListId,body.tmpFaceId,function(faceId){
-      res.send(faceId);      
-    })   */     
-    /*
-    mcf.detect(body.imageUrl, function(faceIds){
-      res.send(faceIds);      
-    })        
-    */
     
   }catch(err){
     console.log(err)
