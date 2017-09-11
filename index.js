@@ -39,7 +39,7 @@ app.post('/webhook', (req, res) => {
               mLab.getOnce(query, function(actor_data) {
                 if(!actor_data){
                   console.log("notExiting: ", tmdb_actor.name)  
-
+                  /*
                   var faceListId = 'whatshisface';
                   var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
                   var userData = tmdb_actor.id;
@@ -57,7 +57,7 @@ app.post('/webhook', (req, res) => {
 
                       mLab.save(model)    
                     }
-                  })
+                  })*/
                   cast_next();
                 }
               })  
