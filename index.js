@@ -60,8 +60,10 @@ app.post('/webhook', (req, res) => {
 
                     mLab.save(model, function(test) {
                        console.log("saved: ", test)  
+                       
                     })    
                   }
+                  cast_next();
                 })
               }
             })            
