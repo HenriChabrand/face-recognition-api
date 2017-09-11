@@ -45,10 +45,10 @@ app.post('/webhook', (req, res) => {
                 var faceListId = 'whatshisface';
                 var imgUrl = 'https://image.tmdb.org/t/p/w500/' + tmdb_actor.profile_path;
                 var userData = tmdb_actor.id;
-                /*
-                mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {
-                  
+                
+                mcf.addFaceToList(faceListId, imgUrl, userData, function(mcs_data) {                  
                   if(mcs_data != null){
+                    
                     var model = {
                         "persistedFaceId": mcs_data.persistedFaceId,
                         "tmdb_actor_id": tmdb_actor.id,
@@ -57,15 +57,10 @@ app.post('/webhook', (req, res) => {
                         "tmdb_actor_img_url": "https://image.tmdb.org/t/p/w500/" + tmdb_actor.profile_path
                     };
 
-                    console.log("created: ", model)  
-
-                    mLab.save(model, function(test) {
-                       console.log("saved: ", test)  
-                       
-                    })    
+                    mLab.save(model)    
                   }
-                })*/
-                  cast_next();
+                })
+                cast_next();
               }
             })            
           }).then(function () {   
