@@ -21,14 +21,14 @@ const server = app.listen(process.env.PORT || 5000, () => {
 
 app.post('/webhook', (req, res) => {  
   try{
-    
+    console.log(req);
     var body = req.body;
     
     
     
     //Sort content type 
     var contentType = body.type;
-    console.log(body)
+    
     //Get cast
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moive){
