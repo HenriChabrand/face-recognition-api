@@ -180,6 +180,7 @@ app.post('/webhook', (req, res) => {
                                   imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path                
                                 }
                                 actor_match_list.push(actor);
+                                next()
                               }else{
                                 console.log("not picked");
                                 next_match()
