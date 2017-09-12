@@ -178,7 +178,8 @@ app.post('/webhook', (req, res) => {
                                   name: picked[0].name,
                                   id: picked[0].id,
                                   character: picked[0].character,
-                                  imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path                
+                                  imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path,
+                                  confidence: match.confidence
                                 }
                                 actor_match_list.push(actor);
                                 next()
