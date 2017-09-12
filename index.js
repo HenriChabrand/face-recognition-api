@@ -21,9 +21,11 @@ const server = app.listen(process.env.PORT || 5000, () => {
 
 app.post('/webhook', (req, res) => {  
   try{
-    console.log(req);
-    var body = req.body;
     
+    var body = req.body; 
+    
+    console.log("body",body)
+    console.log("req.IncomingMessage.body",req.IncomingMessage.body.)
     
     
     //Sort content type 
