@@ -28,7 +28,7 @@ app.post('/webhook', (req, res) => {
     
     //Sort content type 
     var contentType = body.type;
-    console.log(body.img64)
+    console.log(body)
     //Get cast
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moive){
