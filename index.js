@@ -79,24 +79,50 @@ app.post('/webhook', (req, res) => {
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
-    console.log("cast movie then",cast)
+            console.log("cast tv then",cast)
             mcf.detect(body.img64, function(list_tmp_face) {
               forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
-                  mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-                    var query = {persistedFaceId: match[0].persistedFaceId};
-                    mLab.getOnce(query, function(actor_data) {
-                      console.log("Matching Actor :",actor_data);  
-                      if(actor_data!=null){
-                        var actor = {
-                          name: actor_data.tmdb_actor_name,
-                          id: actor_data.tmdb_actor_id,
-                          imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
-                        }
-                        actor_match_list.push(actor);
-                        next()              
+                  mcf.findSimilar('whatshisface', tmp_face.faceId, function(matchs) {
+                    var actor = null;
+                    forEachAsync(matchs, function (next_match, match, index, array) {
+                      console.log("match msc", match);  
+                      var query = {persistedFaceId: match.persistedFaceId};     
+                      if(actor == null){
+                        console.log("Actor empty");  
+                        mLab.getOnce(query, function(actor_data) {                        
+                          console.log("Matching Actor :",actor_data);  
+
+                            if(actor_data!=null){
+                              console.log("actor_data full");  
+                              var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
+                              console.log("Mpicked",picked);  
+                              if(picked[0]){
+                                console.log("picked");  
+                                actor = {
+                                  name: picked[0].name,
+                                  id: picked[0].id,
+                                  character: picked[0].character,
+                                  imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path,
+                                  confidence: match.confidence
+                                }
+                                actor_match_list.push(actor);
+                                next()
+                              }else{
+                                console.log("not picked");
+                                next_match()
+                              }      
+                            }else{
+                              console.log("actor_data null");  
+                              next_match()
+                            }                        
+                        })
                       }else{
-                        next()
+                        console.log("Actor filled");  
+                        next_match()
                       }
+                    }).then(function () {
+                      console.log("matchs then");  
+                      next()
                     })
                   })
               }).then(function () {   
