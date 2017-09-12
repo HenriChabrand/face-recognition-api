@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const forEach = require('async-foreach').forEach;
 const forEachAsync = require('forEachAsync').forEachAsync  
+const lodash = require('lodash');
 
 const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
 const mLab = require(__dirname + '/src/mLab.js');
@@ -154,24 +155,40 @@ app.post('/webhook', (req, res) => {
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
-    console.log("cast tv then",cast)
+            console.log("cast tv then",cast)
             mcf.detect(body.img64, function(list_tmp_face) {
               forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
-                  mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-                    var query = {persistedFaceId: match[0].persistedFaceId};
-                    mLab.getOnce(query, function(actor_data) {
-                      console.log("Matching Actor :",actor_data);  
-                      if(actor_data!=null){
-                        var actor = {
-                          name: actor_data.tmdb_actor_name,
-                          id: actor_data.tmdb_actor_id,
-                          imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
-                        }
-                        actor_match_list.push(actor);
-                        next()              
+                  mcf.findSimilar('whatshisface', tmp_face.faceId, function(matchs) {
+                    var actor = null;
+                    forEachAsync(matchs, function (next_match, match, index, array) {
+                      var query = {persistedFaceId: match.persistedFaceId};     
+                      if(actor == null){
+                        mLab.getOnce(query, function(actor_data) {                        
+                          console.log("Matching Actor :",actor_data);  
+
+                            if(actor_data!=null){
+
+                              var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
+
+                              if(picked[0]){
+                                actor = {
+                                  name: actor_data.tmdb_actor_name,
+                                  id: actor_data.tmdb_actor_id,
+                                  imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
+                                }
+                                actor_match_list.push(actor);
+                              }else{
+                                next_match()
+                              }      
+                            }else{
+                              next_match()
+                            }                        
+                        })
                       }else{
-                        next()
+                        next_match()
                       }
+                    }).then(function () {
+                      next()
                     })
                   })
               }).then(function () {   
