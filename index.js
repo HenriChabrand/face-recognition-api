@@ -30,11 +30,16 @@ app.post('/webhook', (req, res) => {
     //Sort content type 
     var contentType = body.type;
     
+    var cast;
+    console.log("cast ini",cast)
+    
     //Get cast
     if(contentType == "movie"){
       tmdb.getMovieId(body.title, function(moive){
-        tmdb.getMovieCast(moive.id, function(cast){
-          body.title = moive.title;
+        tmdb.getMovieCast(moive.id, function(tmdb_cast){
+          body.title = moive.title;    
+          cast = tmdb_cast;
+          console.log("cast movie",cast)
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
             if(tmdb_actor && tmdb_actor.profile_path!=null){     
               var query = {tmdb_actor_id: tmdb_actor.id};
@@ -73,11 +78,11 @@ app.post('/webhook', (req, res) => {
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
-    
+    console.log("cast movie then",cast)
             mcf.detect(body.img64, function(list_tmp_face) {
               forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
                   mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-                    var query = {persistedFaceId: match.persistedFaceId};
+                    var query = {persistedFaceId: match[0].persistedFaceId};
                     mLab.getOnce(query, function(actor_data) {
                       console.log("Matching Actor :",actor_data);  
                       if(actor_data!=null){
@@ -107,8 +112,10 @@ app.post('/webhook', (req, res) => {
       })      
     }else if(contentType == "tvshow"){      
       tmdb.getTvshowId(body.title, function(tvshow){
-        tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(cast){
+        tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(tmdb_cast){
           body.title = tvshow.name;
+          cast = tmdb_cast;
+          console.log("cast tv",cast)
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
             if(tmdb_actor && tmdb_actor.profile_path!=null){     
               var query = {tmdb_actor_id: tmdb_actor.id};
@@ -147,11 +154,11 @@ app.post('/webhook', (req, res) => {
           }).then(function () {   
             console.log("For each actor done!")
             var actor_match_list = [];
-    
+    console.log("cast tv then",cast)
             mcf.detect(body.img64, function(list_tmp_face) {
               forEachAsync(list_tmp_face, function (next, tmp_face, index, array) {
                   mcf.findSimilar('whatshisface', tmp_face.faceId, function(match) {
-                    var query = {persistedFaceId: match.persistedFaceId};
+                    var query = {persistedFaceId: match[0].persistedFaceId};
                     mLab.getOnce(query, function(actor_data) {
                       console.log("Matching Actor :",actor_data);  
                       if(actor_data!=null){
