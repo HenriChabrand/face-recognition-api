@@ -168,7 +168,7 @@ app.post('/webhook', (req, res) => {
                           console.log("Matching Actor :",actor_data);  
 
                             if(actor_data!=null){
-                              onsole.log("actor_data full");  
+                              console.log("actor_data full");  
                               var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
                               console.log("Mpicked",picked);  
                               if(picked[0]){
@@ -194,10 +194,12 @@ app.post('/webhook', (req, res) => {
                         next_match()
                       }
                     }).then(function () {
+                      console.log("matchs then");  
                       next()
                     })
                   })
               }).then(function () {   
+                  console.log("list_tmp_face then");  
                   var data_out = {
                     actors : actor_match_list,
                     title: body.title + " Se. " + body.season + " Ep. " + body.episode
