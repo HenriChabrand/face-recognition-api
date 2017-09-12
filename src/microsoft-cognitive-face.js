@@ -94,7 +94,7 @@ function findSimilar(faceListId, tmpFaceId , callback){
             // Return out the response body
            
             if(body && body[0]){                
-               callback(body[0])
+               callback(body)
             }            
         }else{
             console.log('msc findSimilar: error: ',error);
