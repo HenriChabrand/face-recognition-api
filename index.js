@@ -161,6 +161,7 @@ app.post('/webhook', (req, res) => {
                   mcf.findSimilar('whatshisface', tmp_face.faceId, function(matchs) {
                     var actor = null;
                     forEachAsync(matchs, function (next_match, match, index, array) {
+                      console.log("match msc", match);  
                       var query = {persistedFaceId: match.persistedFaceId};     
                       if(actor == null){
                         console.log("Actor empty");  
