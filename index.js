@@ -163,28 +163,34 @@ app.post('/webhook', (req, res) => {
                     forEachAsync(matchs, function (next_match, match, index, array) {
                       var query = {persistedFaceId: match.persistedFaceId};     
                       if(actor == null){
+                        console.log("Actor empty");  
                         mLab.getOnce(query, function(actor_data) {                        
                           console.log("Matching Actor :",actor_data);  
 
                             if(actor_data!=null){
-
+                              onsole.log("actor_data full");  
                               var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
                               console.log("Mpicked",picked);  
                               if(picked[0]){
+                                console.log("picked");  
                                 actor = {
-                                  name: actor_data.tmdb_actor_name,
-                                  id: actor_data.tmdb_actor_id,
-                                  imgUrl: "https://image.tmdb.org/t/p/w150" + actor_data.tmdb_actor_img_short_url                
+                                  name: picked[0].name,
+                                  id: picked[0].id,
+                                  character: picked[0].character,
+                                  imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path                
                                 }
                                 actor_match_list.push(actor);
                               }else{
+                                console.log("not picked");
                                 next_match()
                               }      
                             }else{
+                              console.log("actor_data null");  
                               next_match()
                             }                        
                         })
                       }else{
+                        console.log("Actor filled");  
                         next_match()
                       }
                     }).then(function () {
