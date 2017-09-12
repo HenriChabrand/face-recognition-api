@@ -25,7 +25,7 @@ app.post('/webhook', (req, res) => {
     var body = req.body; 
     
     console.log("body",body)
-    console.log("req.IncomingMessage.body",req.IncomingMessage.body.)
+    console.log("req.IncomingMessage.body",req.IncomingMessage.body)
     
     
     //Sort content type 
