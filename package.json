@@ -16,6 +16,7 @@
     "async-foreach": "*",
     "mongoose": "*",
     "forEachAsync": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "firebase": "*" 
   }
 }
