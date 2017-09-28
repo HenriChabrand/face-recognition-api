@@ -5,10 +5,27 @@ const request = require('request');
 const forEach = require('async-foreach').forEach;
 const forEachAsync = require('forEachAsync').forEachAsync  
 const lodash = require('lodash');
-
+const firebase = require('firebase');
+                                  
 const mcf = require(__dirname + '/src/microsoft-cognitive-face.js');
 const mLab = require(__dirname + '/src/mLab.js');
 const tmdb = require(__dirname + '/src/tmdb.js');
+
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyC5XlaMVyuV5q8EQ6gl7bEI-A96HlOYFH8",
+  authDomain: "movie-fact.firebaseapp.com",
+  databaseURL: "https://movie-fact.firebaseio.com",
+  projectId: "movie-fact"
+};
+
+firebase.initializeApp(config);
+
+firebase.database().ref('calls/').on('value', function(snapshot) {
+  console.log("calls",snapshot.val());
+});
+
 
 const app = express();
 
