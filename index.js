@@ -43,7 +43,7 @@ app.post('/webhook', (req, res) => {
     
     res.send(call_id);   
     
-    
+    var directory = 'calls/' + call_id + '/'; 
 
     
     var body = req.body; 
@@ -59,6 +59,10 @@ app.post('/webhook', (req, res) => {
     
     //Get cast
     if(contentType == "movie"){
+      
+      firebase.database().ref(directory + 'title').set(body.title);
+      firebase.database().ref(directory + 'subtitle').set('');
+      
       tmdb.getMovieId(body.title, function(moive){
         tmdb.getMovieCast(moive.id, function(tmdb_cast){
           body.title = moive.title;    
@@ -152,7 +156,8 @@ app.post('/webhook', (req, res) => {
                   var data_out = {
                     actors : actor_match_list,
                     title: body.title
-                  }
+                  }               
+                  
                   //res.send(data_out);  
               });
             })
@@ -160,7 +165,11 @@ app.post('/webhook', (req, res) => {
           });     
         })
       })      
-    }else if(contentType == "tvshow"){      
+    }else if(contentType == "tvshow"){   
+      
+      firebase.database().ref(directory + 'title').set(body.title);
+      firebase.database().ref(directory + 'subtitle').set('S0' + body.season + 'E'+ body.episode);
+      
       tmdb.getTvshowId(body.title, function(tvshow){
         tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(tmdb_cast){
           body.title = tvshow.name;
@@ -230,6 +239,12 @@ app.post('/webhook', (req, res) => {
                                   imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path,
                                   confidence: match.confidence
                                 }
+                                
+                                firebase.database().ref(directory + 'cards/' + index + '/name').set(picked[0].name);
+                                firebase.database().ref(directory + 'cards/' + index + '/character').set(picked[0].character);
+                                firebase.database().ref(directory + 'cards/' + index + '/img').set("https://image.tmdb.org/t/p/w150" + picked[0].profile_path);
+                                firebase.database().ref(directory + 'cards/' + index + '/confidence').set(match.confidence);
+                                
                                 actor_match_list.push(actor);
                                 next()
                               }else{
