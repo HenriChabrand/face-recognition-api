@@ -69,6 +69,9 @@ app.post('/webhook', (req, res) => {
       firebase.database().ref(directory + 'subtitle').set('');
       
       tmdb.getMovieId(body.title, function(moive){
+        
+         firebase.database().ref(directory + 'banner').set("https://image.tmdb.org/t/p/w300" + moive.backdrop_path);
+        
         tmdb.getMovieCast(moive.id, function(tmdb_cast){
           body.title = moive.title;    
           cast = tmdb_cast;
@@ -137,6 +140,12 @@ app.post('/webhook', (req, res) => {
                                   imgUrl: "https://image.tmdb.org/t/p/w150" + picked[0].profile_path,
                                   confidence: match.confidence
                                 }
+                                
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/name').set(picked[0].name);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/character').set(picked[0].character);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/img').set("https://image.tmdb.org/t/p/w150" + picked[0].profile_path);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/confidence').set(match.confidence);
+                                
                                 actor_match_list.push(actor);
                                 next()
                               }else{
@@ -161,7 +170,11 @@ app.post('/webhook', (req, res) => {
                   var data_out = {
                     actors : actor_match_list,
                     title: body.title
-                  }               
+                  }         
+                  
+                   if(actor_match_list.length == 0){
+                     firebase.database().ref(directory + 'no_match').set(true);
+                  }
                   
                   //res.send(data_out);  
               });
