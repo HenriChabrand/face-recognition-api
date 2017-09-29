@@ -43,7 +43,7 @@ app.post('/webhook', (req, res) => {
     
     res.send(call_id);   
     
-    var directory = 'calls/' + call_id + '/'; 
+   
 
     
     var body = req.body; 
@@ -52,7 +52,9 @@ app.post('/webhook', (req, res) => {
     
     console.log("body",body)
     
-    firebase.database().ref(directory + 'request').set(body);
+    firebase.database().ref('calls/' + call_id + '/request').set(body);
+    
+    var directory = 'calls/' + call_id + '/result'; 
     
     //Sort content type 
     var contentType = body.type;
@@ -327,7 +329,7 @@ function guidGenerator() {
     var S4 = function() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    return (Date.now()+"-"+S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 
