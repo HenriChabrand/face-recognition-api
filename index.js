@@ -48,8 +48,11 @@ app.post('/webhook', (req, res) => {
     
     var body = req.body; 
     
+    
+    
     console.log("body",body)
     
+    firebase.database().ref(directory + 'request').set(body);
     
     //Sort content type 
     var contentType = body.type;
