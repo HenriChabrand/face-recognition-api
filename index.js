@@ -22,10 +22,6 @@ var config = {
 
 firebase.initializeApp(config);
 
-firebase.database().ref('calls/').on('value', function(snapshot) {
-  console.log("calls",snapshot.val());
-});
-
 
 const app = express();
 
@@ -39,6 +35,16 @@ const server = app.listen(process.env.PORT || 5000, () => {
 
 app.post('/webhook', (req, res) => {  
   try{
+    
+    
+    var call_id = guidGenerator();
+    console.log(call_id);
+    
+    
+    res.send(call_id);   
+    
+    
+
     
     var body = req.body; 
     
@@ -147,7 +153,7 @@ app.post('/webhook', (req, res) => {
                     actors : actor_match_list,
                     title: body.title
                   }
-                  res.send(data_out);  
+                  //res.send(data_out);  
               });
             })
             
@@ -250,7 +256,7 @@ app.post('/webhook', (req, res) => {
                     actors : actor_match_list,
                     title: body.title + " Se. " + body.season + " Ep. " + body.episode
                   }
-                  res.send(data_out);  
+                  //res.send(data_out);  
               });
             })            
           });    
@@ -288,6 +294,14 @@ app.post('/webhook', (req, res) => {
  
 });
 
+
+
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
 
 
 
