@@ -52,9 +52,9 @@ app.post('/webhook', (req, res) => {
     
     console.log("body",body)
     
-    firebase.database().ref('calls/' + call_id + '/request').set(body);
+    firebase.database().ref('calls/' + call_id + '/request/').set(body);
     
-    var directory = 'calls/' + call_id + '/result'; 
+    var directory = 'calls/' + call_id + '/result/'; 
     
     //Sort content type 
     var contentType = body.type;
