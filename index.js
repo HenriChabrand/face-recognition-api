@@ -172,7 +172,7 @@ app.post('/webhook', (req, res) => {
       
       tmdb.getTvshowId(body.title, function(tvshow){
         
-        firebase.database().ref(directory + 'banner').set("https://image.tmdb.org/t/p/w500" + tvshow.backdrop_path);
+        firebase.database().ref(directory + 'banner').set("https://image.tmdb.org/t/p/w300" + tvshow.backdrop_path);
         
         tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(tmdb_cast){
           body.title = tvshow.name;
@@ -275,6 +275,11 @@ app.post('/webhook', (req, res) => {
                     actors : actor_match_list,
                     title: body.title + " Se. " + body.season + " Ep. " + body.episode
                   }
+                  
+                  if(actor_match_list.length == 0){
+                     firebase.database().ref(directory + 'no_match').set(true);
+                  }
+                  
                   //res.send(data_out);  
               });
             })            
