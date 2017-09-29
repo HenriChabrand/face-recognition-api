@@ -101,22 +101,22 @@ app.post('/webhook', (req, res) => {
                       };
 
                       mLab.save(model, function(){
-                        console.log("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
+                        firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                         cast_next()
                         
                       })    
                     }else{
-                      console.log("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
+                      firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                       cast_next()
                     }
                   })
                 }else{
-                  console.log("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
+                  firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                   cast_next()
                 }
               }) 
             }else{
-              console.log("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
+              firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
               cast_next()
             }
           }).then(function () {   
@@ -227,17 +227,21 @@ app.post('/webhook', (req, res) => {
                       };
 
                       mLab.save(model, function(){
+                        firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                         cast_next()
                       })    
                     }else{
+                      firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                       cast_next()
                     }
                   })
                 }else{
+                  firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
                   cast_next()
                 }
               }) 
             }else{
+              firebase.database().ref('calls/' + call_id + '/result/sync/').set("Sync "+ Math.floor(((index+1)/cast.length)*100) +"%");
               cast_next()
             }
           }).then(function () {   
