@@ -66,10 +66,13 @@ app.post('/webhook', (req, res) => {
     if(contentType == "movie"){
       
       firebase.database().ref(directory + 'title').set(body.title);
-      firebase.database().ref(directory + 'subtitle').set('');
+     
       
       tmdb.getMovieId(body.title, function(moive){
         
+         var year ='';
+         year = moive.release_date.substring(0, 4);
+         firebase.database().ref(directory + 'subtitle').set(year);
          firebase.database().ref(directory + 'banner').set("https://image.tmdb.org/t/p/w300" + moive.backdrop_path);
         
         tmdb.getMovieCast(moive.id, function(tmdb_cast){
