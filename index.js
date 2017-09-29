@@ -101,17 +101,22 @@ app.post('/webhook', (req, res) => {
                       };
 
                       mLab.save(model, function(){
+                        console.log("Sync "+index+"/"+cast.length);
                         cast_next()
+                        
                       })    
                     }else{
+                      console.log("Sync "+index+"/"+cast.length);
                       cast_next()
                     }
                   })
                 }else{
+                  console.log("Sync "+index+"/"+cast.length);
                   cast_next()
                 }
               }) 
             }else{
+              console.log("Sync "+index+"/"+cast.length);
               cast_next()
             }
           }).then(function () {   
