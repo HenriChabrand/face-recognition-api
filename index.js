@@ -171,9 +171,13 @@ app.post('/webhook', (req, res) => {
       firebase.database().ref(directory + 'subtitle').set('S0' + body.season + 'E'+ body.episode);
       
       tmdb.getTvshowId(body.title, function(tvshow){
+        
+        firebase.database().ref(directory + 'banner').set("https://image.tmdb.org/t/p/w500" + tvshow.backdrop_path);
+        
         tmdb.getTvshowSECast(tvshow.id, body.season, body.episode, function(tmdb_cast){
           body.title = tvshow.name;
           cast = tmdb_cast;
+          
           console.log("cast tv",cast)
           forEachAsync(cast, function (cast_next, tmdb_actor, index, array) {            
             if(tmdb_actor && tmdb_actor.profile_path!=null){     
