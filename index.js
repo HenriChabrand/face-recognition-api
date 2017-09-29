@@ -101,22 +101,22 @@ app.post('/webhook', (req, res) => {
                       };
 
                       mLab.save(model, function(){
-                        console.log("Sync "+index+"/"+cast.length);
+                        console.log("Sync "+((index+1)/cast.length).toFixedDown(0) +"%");
                         cast_next()
                         
                       })    
                     }else{
-                      console.log("Sync "+index+"/"+cast.length);
+                      console.log("Sync "+((index+1)/cast.length).toFixedDown(0) +"%");
                       cast_next()
                     }
                   })
                 }else{
-                  console.log("Sync "+index+"/"+cast.length);
+                  console.log("Sync "+((index+1)/cast.length).toFixedDown(0) +"%");
                   cast_next()
                 }
               }) 
             }else{
-              console.log("Sync "+index+"/"+cast.length);
+              console.log("Sync "+((index+1)/cast.length).toFixedDown(0) +"%");
               cast_next()
             }
           }).then(function () {   
