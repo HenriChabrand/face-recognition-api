@@ -244,10 +244,10 @@ app.post('/webhook', (req, res) => {
                                   confidence: match.confidence
                                 }
                                 
-                                firebase.database().ref(directory + 'cards/' + 0 + '/name').set(picked[0].name);
-                                firebase.database().ref(directory + 'cards/' + 0 + '/character').set(picked[0].character);
-                                firebase.database().ref(directory + 'cards/' + 0 + '/img').set("https://image.tmdb.org/t/p/w150" + picked[0].profile_path);
-                                firebase.database().ref(directory + 'cards/' + 0 + '/confidence').set(match.confidence);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/name').set(picked[0].name);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/character').set(picked[0].character);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/img').set("https://image.tmdb.org/t/p/w150" + picked[0].profile_path);
+                                firebase.database().ref(directory + 'cards/' + actor_match_list.length + '/confidence').set(match.confidence);
                                 
                                 actor_match_list.push(actor);
                                 next()
