@@ -59,6 +59,7 @@ function detect(imageUrl, callback){
         if (!error && response.statusCode == 200) {
             // Return out the response body
             callback(body)
+            console.log('msc detect: body: ',body);
         }else{
             console.log('msc detect: error: ',error);
         }
