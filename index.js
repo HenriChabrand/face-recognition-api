@@ -135,7 +135,7 @@ app.post('/webhook', (req, res) => {
                         mLab.getOnce(query, function(actor_data) {                        
                           console.log("Matching Actor :",actor_data);  
 
-                            if(actor_data!=null){
+                            if(actor_data){
                               console.log("actor_data full");  
                               var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
                               console.log("Mpicked",picked);  
@@ -260,7 +260,7 @@ app.post('/webhook', (req, res) => {
                         mLab.getOnce(query, function(actor_data) {                        
                           console.log("Matching Actor :",actor_data);  
 
-                            if(actor_data!=null){
+                            if(actor_data){
                               console.log("actor_data full");  
                               var picked = lodash.filter(cast, { 'id': actor_data.tmdb_actor_id } );
                               console.log("Mpicked",picked);  
