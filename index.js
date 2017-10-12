@@ -80,7 +80,7 @@ app.post('/webhook', (req, res) => {
                     var query = {persistedFaceId: match.persistedFaceId};
                     mLab.getOnce(query, function(actor_data) {
                       console.log("Matching Actor :",actor_data);  
-                      if(actor_data!=null){
+                      if(!actor_data){
                         var actor = {
                           name: actor_data.tmdb_actor_name,
                           id: actor_data.tmdb_actor_id,
@@ -154,7 +154,7 @@ app.post('/webhook', (req, res) => {
                     var query = {persistedFaceId: match.persistedFaceId};
                     mLab.getOnce(query, function(actor_data) {
                       console.log("Matching Actor :",actor_data);  
-                      if(actor_data!=null){
+                      if(!actor_data){
                         var actor = {
                           name: actor_data.tmdb_actor_name,
                           id: actor_data.tmdb_actor_id,
