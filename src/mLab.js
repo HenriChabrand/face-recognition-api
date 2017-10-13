@@ -24,5 +24,12 @@ function save(json, callback){
     });
 }
 
+function saveFaceLandmarks(json, callback){
+    db.collection('face-landmarks').save(json, function(err, records) {
+        callback(records);
+    });
+}
+
 exports.getOnce = getOnce;
 exports.save = save;
+exports.saveFaceLandmarks = saveFaceLandmarks;
